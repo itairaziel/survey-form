@@ -601,12 +601,13 @@
             </div>
         </form>
 
-        <div class="success-message" id="success-message">
-            <h2>✅ תודה רבה על מילוי השאלון!</h2>
-            <p>ועד בית טאגור 31-33</p>
-            <p style="margin-top: 20px; font-size: 14px;">התשובות שלך נשמרו בהצלחה.<br>ועד הבית יכלול את דעתך בתהליך ההחלטה.</p>
-            <button type="button" onclick="showResults()" style="margin-top: 20px; padding: 12px 30px; background: #667eea; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 16px;">
-                📊 לצפייה בתוצאות הסקר - לחץ כאן
+        <div id="success-message" style="display: none; text-align: center; padding: 60px 20px; background: linear-gradient(135deg, #27ae60 0%, #229954 100%); color: white; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <h1 style="font-size: 36px; margin-bottom: 20px;">✅ תודה רבה!</h1>
+            <p style="font-size: 20px; margin-bottom: 10px;">על מילוי השאלון</p>
+            <p style="font-size: 18px; margin-bottom: 30px;">ועד בית טאגור 31-33</p>
+            <p style="font-size: 14px; margin-bottom: 40px; opacity: 0.9;">התשובות שלך נשמרו בהצלחה</p>
+            <button type="button" onclick="showResults()" style="padding: 15px 40px; background: white; color: #27ae60; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 18px;">
+                📊 צפה בתוצאות הסקר
             </button>
         </div>
 
@@ -738,19 +739,17 @@
             console.log('Form Data:', data);
 
             // Show success message
-            this.style.display = 'none';
+            document.getElementById('surveyForm').style.display = 'none';
             document.querySelector('.progress-section').style.display = 'none';
-            document.getElementById('success-message').classList.add('show');
+            document.getElementById('success-message').style.display = 'flex';
 
             // In production, send to Google Sheets or Supabase
             // Example: fetch('/api/submit-survey', { method: 'POST', body: JSON.stringify(data) })
         });
 
         function showResults() {
-            // Hide success message and form
+            // Hide success message
             document.getElementById('success-message').style.display = 'none';
-            document.getElementById('surveyForm').style.display = 'none';
-            document.querySelector('.progress-section').style.display = 'none';
 
             // Show results page
             document.getElementById('results-page').style.display = 'block';
