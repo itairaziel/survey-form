@@ -3,45 +3,347 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>שאלון דיירים</title>
+    <title>שאלון דיירים - תוספות ושיפורים למבנה</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px; }
-        .container { max-width: 700px; margin: 0 auto; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden; }
-        header { background: linear-gradient(135deg, #2c5aa0 0%, #1e3c72 100%); color: white; padding: 15px; text-align: center; }
-        h1 { font-size: 20px; margin-bottom: 5px; }
-        .subtitle { font-size: 12px; opacity: 0.9; }
-        .progress { padding: 10px 20px; background: #f0f0f0; font-size: 12px; color: #666; }
-        .form-content { padding: 20px; }
-        .section { margin-bottom: 25px; display: none; }
-        .section.active { display: block; }
-        .question { font-weight: bold; margin-bottom: 10px; color: #333; }
-        .info-box { background: #f0f7ff; padding: 12px; margin: 10px 0; border-left: 4px solid #2c5aa0; font-size: 12px; color: #555; line-height: 1.5; }
-        .options { margin: 10px 0; }
-        .option { margin: 8px 0; }
-        .option input { margin-left: 10px; }
-        input[type="text"], input[type="email"], select, textarea { width: 100%; padding: 8px; margin: 5px 0; border: 1px solid #ddd; border-radius: 4px; }
-        textarea { min-height: 80px; }
-        .buttons { display: flex; gap: 10px; margin-top: 20px; }
-        button { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; flex: 1; }
-        .btn-back { background: #ddd; color: #333; }
-        .btn-next { background: #2c5aa0; color: white; }
-        .btn-submit { background: #27ae60; color: white; }
-        
-        #success-message { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #2c5aa0 0%, #1e3c72 100%); color: white; justify-content: center; align-items: center; flex-direction: column; z-index: 9999; }
-        #success-message.show { display: flex; }
-        #success-message h1 { font-size: 48px; margin-bottom: 20px; }
-        #success-message p { font-size: 20px; margin: 10px 0; }
-        #success-message button { background: white; color: #2c5aa0; padding: 15px 40px; font-size: 18px; margin-top: 40px; width: auto; }
-        
-        #results-page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; overflow-y: auto; z-index: 9998; padding: 40px 20px; }
-        #results-page.show { display: block; }
-        #results-page h1 { color: #2c5aa0; text-align: center; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 10px; text-align: right; border: 1px solid #ddd; }
-        th { background: #2c5aa0; color: white; }
-        .yes { background: #e8f5e9; }
-        .no { background: #ffebee; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c5aa0 0%, #1e3c72 100%);
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 18px;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .progress-section {
+            padding: 8px 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            width: 5%;
+        }
+
+        .form-content {
+            padding: 30px 20px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c5aa0;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-box {
+            background: #f0f7ff;
+            border-right: 4px solid #2c5aa0;
+            padding: 12px;
+            margin-top: 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-top: 15px;
+        }
+
+        .question {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-right: 15px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .option input[type="radio"],
+        .option input[type="checkbox"] {
+            margin-left: 10px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .option label {
+            margin: 0;
+            flex: 1;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            direction: rtl;
+            transition: border-color 0.2s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 8px rgba(102, 126, 234, 0.2);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .sub-field {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-back {
+            background: #f0f0f0;
+            color: #333;
+            flex: 1;
+        }
+
+        .btn-back:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-next:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-next:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+            width: 100%;
+            padding: 16px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(39, 174, 96, 0.3);
+        }
+
+        .section-hidden {
+            display: none;
+        }
+
+        footer {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .success-message {
+            display: none !important;
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+            padding: 40px 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 20px auto;
+            max-width: 700px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+        }
+
+        .success-message h2 {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .success-message.show {
+            display: flex !important;
+        }
+
+        .field-required {
+            color: #e74c3c;
+        }
+
+        #results-page {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: white !important;
+            overflow-y: auto !important;
+            z-index: 9998 !important;
+            padding: 40px 20px !important;
+        }
+
+        @media (max-width: 600px) {
+            .form-content {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .section-title {
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -51,241 +353,439 @@
             <div class="subtitle">תוספות ושיפורים למבנה | טאגור 31 ו-33</div>
         </header>
 
-        <div class="progress">📍 <span id="progress-text">שלב 1 מתוך 6</span></div>
+        <div class="progress-section">
+            <div class="progress-label">
+                <span>התקדמות</span>
+                <span id="progress-text">שלב 1 מתוך 6</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
 
         <form id="surveyForm" class="form-content">
-            <!-- Section 1 -->
-            <div class="section active" id="section-1">
-                <h2>פרטים אישיים</h2>
-                <div class="question">שם בעל הדירה / שוכר *</div>
-                <input type="text" name="name" required>
-                
-                <div class="question" style="margin-top: 15px;">בניין *</div>
-                <select name="building" required>
-                    <option value="">בחר בניין</option>
-                    <option value="טאגור 31">טאגור 31</option>
-                    <option value="טאגור 33">טאגור 33</option>
-                </select>
-                
-                <div class="question" style="margin-top: 15px;">מספר דירה *</div>
-                <input type="text" name="apartment" required placeholder="לדוגמה: 5">
-                
-                <div class="question" style="margin-top: 15px;">טלפון *</div>
-                <input type="text" name="phone" required placeholder="05X-XXXXXXX">
-                
-                <div class="question" style="margin-top: 15px;">דוא״ל *</div>
-                <input type="email" name="email" required>
-                
+            <!-- SECTION 1: פרטים אישיים -->
+            <div class="section" id="section-1">
+                <div class="section-number">1</div>
+                <div class="section-title">פרטים אישיים</div>
+
+                <div class="form-group">
+                    <label for="name" class="question">שם בעל הדירה / שוכר <span class="required">*</span></label>
+                    <input type="text" id="name" name="name" required placeholder="שם מלא">
+                </div>
+
+                <div class="form-group">
+                    <label for="building" class="question">בניין <span class="required">*</span></label>
+                    <select id="building" name="building" required>
+                        <option value="">בחר בניין</option>
+                        <option value="טאגור 31">טאגור 31</option>
+                        <option value="טאגור 33">טאגור 33</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="apartment" class="question">מספר דירה <span class="required">*</span></label>
+                    <input type="text" id="apartment" name="apartment" required placeholder="לדוגמה: 5">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone" class="question">טלפון <span class="required">*</span></label>
+                    <input type="text" id="phone" name="phone" required placeholder="05X-XXXXXXX">
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="question">דוא״ל <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" required placeholder="name@example.com">
+                    <div class="info-box">
+                        🔒 האימייל משמש לאימות - כל דיירי יוכל להשיב פעם אחת בלבד
+                    </div>
+                </div>
+
                 <div class="buttons">
                     <button type="button" class="btn-next" onclick="nextSection(1)">הבא ></button>
                 </div>
             </div>
 
-            <!-- Section 2 - Balcony -->
-            <div class="section" id="section-2">
-                <h2>תוספת מרפסת</h2>
+            <!-- SECTION 2: מרפסת -->
+            <div class="section section-hidden" id="section-2">
+                <div class="section-number">2</div>
+                <div class="section-title">תוספת מרפסת</div>
+
                 <div class="info-box">
-                    <strong>🏠 מידע רקע:</strong><br>
-                    • סוג: מרפסת קונזולית תלויה<br>
-                    • גודל: 12 מ״ר<br>
-                    • זמן ביצוע: כשנה וחצי<br>
-                    • תרומה לערך הדירה: +5-8%<br>
-                    • אחוז הסכמה נדרש: 75%<br>
-                    • עלות: ₪110,000-150,000
+                    <strong>🏠 מידע רקע - תוספת מרפסות:</strong><br>
+                    • סוג: מרפסת קונזולית תלויה (תהליך בניה קל, אסטתי, מהיר ועם מינימום הפרעה לשגרת החיים)<br>
+                    • גודל משוער: 12 מ״ר<br>
+                    • זמן ביצוע: כשנה וחצי עד לסיום תהליך הוצאת האישורים - ועוד כחצי שנה עבודה (מתבצעת כשהדיירים גרים בדירה - הכל באופן חיצוני - ללא כניסת פועלים לדירה)<br>
+                    • תרומה גדולה מאוד לאיכות החיים - אור, אוויר ולנראות של הבית<br>
+                    • מדובר בהשקעה שמובילה לעלית ערך הדירה בכ: +5-8% (רווח של כמה מאות שקלים!!!)<br>
+                    • אחוז הסכמה נדרש: 75% - ניתן לבצע רק במקטעים שבהם יש את הרוב הדרוש (רק מאחור, רק מלפנים בצד הדרומי וכו׳)<br>
+                    ⚠️ דיירים שלא מעוניינים: תבנה עבורם מרפסת דמה (עלות בניית מרפסת דמה זולה מעלות מרפסת מלאה אך יש לקחת בחשבון שהעלות תושת על יתר בעלי הדירות)<br>
+                    - על מי שתיבנה עבורו מרפסת דמה תאסר יציאה או שימוש בה ללא אישור כל יתר הדיירים והחזר תשלום יחסי<br>
+                    - דייר שיתחרט וירצה להוסיף מרפסת מאוחר יותר יצטרך להוציא את כל האישורים מההתחלה(!) - תהליך יקר מאוד וארוך ולא כדאי - כדאי לצאת לדרך יחד עם כל יתר הדיירים בעת יציאה לפרוייקט - זהו פרוייקט מהיר שיצא שיצא לדרך כבר בזמן הקרוב!<br>
+                    💰 מיסוי: יש מס שבח על השבחת הנכס - רק עבור דירות בשכירות או אם מוכרים את הדירה ב-4 שנים שלאחרי הוספת המרפסת<br>
+                    📋 עלות תשלום ניהול הפרוייקט עבור עורך הדין: כ-₪9,000 (כולל אישורים)<br>
+                    <strong>סהכ עלות משוערת (הכל כולל הכל): ₪110,000-150,000</strong>
                 </div>
-                <div class="question">האם אתה מעוניין בתוספת מרפסת? *</div>
-                <div class="options">
-                    <div class="option"><input type="radio" name="balcony" value="כן בהחלט" required> כן, בהחלט</div>
-                    <div class="option"><input type="radio" name="balcony" value="לא מעוניין"> לא, לא מעוניין</div>
+
+                <div class="form-group">
+                    <div class="question">האם אתה מעוניין בתוספת מרפסת? <span class="required">*</span></div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="balcony_yes" name="balcony" value="כן בהחלט" required>
+                            <label for="balcony_yes">✅ כן, בהחלט</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="balcony_no" name="balcony" value="לא מעוניין">
+                            <label for="balcony_no">❌ לא, לא מעוניין</label>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="form-group sub-field" id="balcony-size-field" style="display:none;">
+                    <label for="balcony-size">אם כן - גודל משוער של המרפסת (מ״ר)</label>
+                    <input type="text" id="balcony-size" name="balcony_size" placeholder="לדוגמה: 10">
+                </div>
+
                 <div class="buttons">
                     <button type="button" class="btn-back" onclick="prevSection(2)">< חזור</button>
                     <button type="button" class="btn-next" onclick="nextSection(2)">הבא ></button>
                 </div>
             </div>
 
-            <!-- Section 3 - Mamad -->
-            <div class="section" id="section-3">
-                <h2>ממ״ד (מרחב מוגן דירתי)</h2>
+            <!-- SECTION 3: ממ״ד -->
+            <div class="section section-hidden" id="section-3">
+                <div class="section-number">3</div>
+                <div class="section-title">ממ״ד (מרחב מוגן דירתי)</div>
+
                 <div class="info-box">
-                    <strong>🛡️ מידע רקע:</strong><br>
-                    • גודל: 9 מ״ר<br>
-                    • עלות: ₪150,000-200,000<br>
-                    • אחוז הסכמה: 66%<br>
-                    • ערך דירה: +40%<br>
-                    • זמן: כמה חודשים
+                    <strong>🛡️ מידע רקע - ממ״ד (מרחב מוגן דירתי):</strong><br>
+                    • גודל משוער: 9 מ״ר (בתקן)<br>
+                    • עלות ניהול הפרוייקט ע״י עורך הדין: ₪6,000 לכל דירה<br>
+                    • <strong>סהכ עלות משוערת (הכל כולל הכל): ₪150,000-200,000</strong><br>
+                    • זמן ביצוע: כמה חודשים<br>
+                    • <strong>אחוז הסכמה נדרש: 66%</strong><br>
+                    💰 מיסוי: הקלות מס כי הממשלה מעודדת<br>
+                    📈 <strong>ערך דירה: +40%</strong> (בתל אביב), לפחות יש שאומרים שאף יותר - קשה כיום להשכיר או למכור דירה ללא ממ״ד<br>
+                    📍 מיקום: עורך הדין והאדריכלית יגישו בקשה לממ״דים בחזית ונראה מה תהיה תשובת העיריה. אם לא יאשרו ננסה לייצר כמה תוכניות חלופיות אחרות - הרבה פחות אידיאליות, אבל קחו בחשבון - זה או לא אידיאלי או לא ממ״ד :)
                 </div>
-                <div class="question">האם אתה מעוניין בממ״ד בדירתך? *</div>
-                <div class="options">
-                    <div class="option"><input type="radio" name="mamad" value="כן בהחלט" required> כן, בהחלט</div>
-                    <div class="option"><input type="radio" name="mamad" value="לא מעוניין"> לא, לא מעוניין</div>
+
+                <div class="form-group">
+                    <div class="question">האם אתה מעוניין בממ״ד (מרחב מוגן דירתי) בדירתך? <span class="required">*</span></div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="mamad_yes" name="mamad" value="כן בהחלט" required>
+                            <label for="mamad_yes">✅ כן, בהחלט</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="mamad_no" name="mamad" value="לא מעוניין">
+                            <label for="mamad_no">❌ לא, לא מעוניין</label>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="form-group sub-field" id="mamad-location-field" style="display:none;">
+                    <label for="mamad-location">אם כן - מה המיקום המועדף?</label>
+                    <select id="mamad-location" name="mamad_location">
+                        <option value="">בחר מיקום</option>
+                        <option value="חדר שינה">חדר שינה</option>
+                        <option value="מטבח">מטבח</option>
+                        <option value="חדר אחסנה">חדר אחסנה</option>
+                        <option value="לא משנה">לא משנה</option>
+                    </select>
+                </div>
+
                 <div class="buttons">
                     <button type="button" class="btn-back" onclick="prevSection(3)">< חזור</button>
                     <button type="button" class="btn-next" onclick="nextSection(3)">הבא ></button>
                 </div>
             </div>
 
-            <!-- Section 4 - Mamak -->
-            <div class="section" id="section-4">
-                <h2>מרחב מוגן קומתי (ממ״ק)</h2>
+            <!-- SECTION 4: ממ״ק -->
+            <div class="section section-hidden" id="section-4">
+                <div class="section-number">4</div>
+                <div class="section-title">מקלט משותף (ממ״ק)</div>
+
                 <div class="info-box">
-                    <strong>🏢 מידע רקע:</strong><br>
-                    • משותף ל-3 דירות<br>
-                    • עלות: ~₪100,000<br>
-                    • עלות לדיירי: ~₪33,000<br>
-                    • אחוז הסכמה: 100%
+                    <strong>🏢 מידע רקע - מרחב מוגן קומתי - ממ״ק:</strong><br>
+                    • רלוונטי כאופציה ב׳ באם לא נצליח להוציא לפועל תוכנית ממ״דים בחזית הבניין או אם לא נמצא תוכנית מקובלת לממ״דים דירתיים<br>
+                    • מיקום: בפיר בו מצוי כרגע חלון האלומניום בחדר המדרגות - בחצאי הקומות<br>
+                    • מרחב מוגן קומתי יהיה משותף ל-3 דירות - אחד לכל קומה<br>
+                    • <strong>עלות משוערת: ~₪100,000</strong> (משותף בין דיירים) - חסכוני אך לא מוסיף הרבה לערך הדירה<br>
+                    • עלות לדיירי: ~₪33,000 (הרבה פחות מממ״ד בודד)<br>
+                    • <strong>אחוז הסכמה נדרש: 100%!!!</strong> - דורש הסכמה מ-כל הדיירים - זה הבעיה הגדולה!
                 </div>
-                <div class="question">האם אתה תומך בממ״ק משותף? *</div>
-                <div class="options">
-                    <div class="option"><input type="radio" name="mamak" value="כן" required> כן, אתמוך</div>
-                    <div class="option"><input type="radio" name="mamak" value="לא"> לא תומך</div>
+
+                <div class="form-group">
+                    <div class="question">אם לא יהיה ממ״ד בדירה - תתמוך בממ״ק משותף? <span class="required">*</span></div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="mamak_yes" name="mamak" value="כן" required>
+                            <label for="mamak_yes">✅ כן, אתמוך בממ״ק משותף</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="mamak_no" name="mamak" value="לא">
+                            <label for="mamak_no">❌ לא תומך</label>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="buttons">
                     <button type="button" class="btn-back" onclick="prevSection(4)">< חזור</button>
                     <button type="button" class="btn-next" onclick="nextSection(4)">הבא ></button>
                 </div>
             </div>
 
-            <!-- Section 5 - Elevator -->
-            <div class="section" id="section-5">
-                <h2>מעלית אלונקה</h2>
+            <!-- SECTION 5: מעלית אלונקה -->
+            <div class="section section-hidden" id="section-5">
+                <div class="section-number">5</div>
+                <div class="section-title">מעלית אלונקה</div>
+
                 <div class="info-box">
-                    <strong>🛗 מידע רקע:</strong><br>
-                    • עלות: כ-₪600,000<br>
-                    • עלות לדיירי: פחות מ-₪30,000<br>
-                    • אפשרות: מעלית חיצונית שקופה
+                    <strong>🛗 מידע רקע - מעלית אלונקה:</strong><br>
+                    • במידה ולא נצליח להוציא לפועל תוכנית ממ״ק (מרחב מוגן קומתי) - סמוך לחלונות בחדר המדרגות בחצאי הקומות<br>
+                    ⚠️ <strong>הערה חשובה מאוד:</strong> המעליות הנוכחיות ישנות - אם המעלית קורסת וזה יכול לקרות כל יום, תיקון ידרוש השבתה - אנשים יהיו תקועים בבתים!<br>
+                    - מעלית אלונקה - המצב הנוכחי לא מאפשר חילוץ בשכיבה שזו בעיה רצינית מאוד במקרה חירום (!)<br>
+                    • <strong>עלות משוערת: כ-₪600,000</strong> (לכל מעלית - כלומר לכל הדיירים בכל בניין)<br>
+                    • העלות מתחלקת בין כל הדיירים - הוצאה של פחות מ-₪30,000 לכל בעל/ת דירה<br>
+                    • אפשרות שעלתה: בנית מעלית חיצונית שקופה - שתאפשר המשך חדירת אור יום לחדר המדרגות
                 </div>
-                <div class="question">האם אתה בעד הוספת מעלית? *</div>
-                <div class="options">
-                    <div class="option"><input type="radio" name="elevator" value="כן" required> כן, בעד</div>
-                    <div class="option"><input type="radio" name="elevator" value="לא"> לא, נגד</div>
+
+                <div class="form-group">
+                    <div class="question">האם אתה בעד הוספת מעלית אלונקה? <span class="required">*</span></div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="elevator_yes" name="elevator" value="כן" required>
+                            <label for="elevator_yes">✅ כן, בעד</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="elevator_no" name="elevator" value="לא">
+                            <label for="elevator_no">❌ לא, נגד</label>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="buttons">
                     <button type="button" class="btn-back" onclick="prevSection(5)">< חזור</button>
                     <button type="button" class="btn-next" onclick="nextSection(5)">הבא ></button>
                 </div>
             </div>
 
-            <!-- Section 6 - Comments -->
-            <div class="section" id="section-6">
-                <h2>הערות נוספות</h2>
-                <div class="question">האם יש לך הערות או הצעות?</div>
-                <textarea name="comments" placeholder="כתוב כאן..."></textarea>
+            <!-- SECTION 6: הערות כלליות -->
+            <div class="section section-hidden" id="section-6">
+                <div class="section-number">6</div>
+                <div class="section-title">הערות וטיפולים נוספים</div>
+
+                <div class="form-group">
+                    <label for="comments" class="question">האם יש לך הערות / שאלות / הצעות נוספות בנוגע לנושאים שעלו בשאלון?</label>
+                    <textarea id="comments" name="comments" placeholder="כתוב/כתבי כאן כל מחשבה, הצעה, שאלה או חשש שיש לך..."></textarea>
+                </div>
+
                 <div class="buttons">
                     <button type="button" class="btn-back" onclick="prevSection(6)">< חזור</button>
-                    <button type="submit" class="btn-submit">✅ שלח את התשובות</button>
+                    <button type="submit" class="btn-submit">✅ שלח את התשובות שלי</button>
                 </div>
             </div>
         </form>
-    </div>
 
-    <!-- Success Message -->
-    <div id="success-message">
-        <h1>✅ תודה רבה!</h1>
-        <p>על מילוי השאלון</p>
-        <p>ועד בית טאגור 31-33</p>
-        <p style="font-size: 16px; opacity: 0.9; margin-top: 20px;">התשובות שלך נשמרו בהצלחה</p>
-        <button type="button" onclick="showResults()">📊 צפה בתוצאות הסקר</button>
-    </div>
+        <div id="success-message" style="position: fixed; top: 0; left: 0; right: 0; width: 100%; height: 100vh; text-align: center; padding: 40px 20px; background: linear-gradient(135deg, #2c5aa0 0%, #1e3c72 100%); color: white; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; display: none !important;">
+            <h1 style="font-size: 48px; margin-bottom: 20px; margin-top: 80px;">✅ תודה רבה!</h1>
+            <p style="font-size: 24px; margin-bottom: 15px;">על מילוי השאלון</p>
+            <p style="font-size: 20px; margin-bottom: 50px;">ועד בית טאגור 31-33</p>
+            <p style="font-size: 16px; margin-bottom: 40px; opacity: 0.95;">התשובות שלך נשמרו בהצלחה</p>
+            <button type="button" onclick="showResults()" style="padding: 18px 50px; background: white; color: #2c5aa0; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+                📊 צפה בתוצאות הסקר
+            </button>
+        </div>
 
-    <!-- Results Page -->
-    <div id="results-page">
-        <h1>📊 תוצאות הסקר</h1>
-        <p style="text-align: center; color: #666;">ועד בית טאגור 31-33</p>
-        <table>
-            <thead>
-                <tr>
-                    <th>בניין</th>
-                    <th>דירה</th>
-                    <th>שם</th>
-                    <th>מרפסת</th>
-                    <th>ממ״ד</th>
-                    <th>ממ״ק</th>
-                    <th>מעלית</th>
-                </tr>
-            </thead>
-            <tbody id="results-tbody"></tbody>
-        </table>
+        <div id="results-page" style="display: none; padding: 20px;">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h1 style="color: #2c5aa0; margin-bottom: 10px;">📊 תוצאות הסקר</h1>
+                <p style="color: #666; font-size: 14px;">ועד בית טאגור 31-33</p>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table id="results-table" style="width: 100%; border-collapse: collapse; background: white;">
+                    <thead>
+                        <tr style="background: #2c5aa0; color: white;">
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">בניין</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">דירה</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">שם</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">מרפסת</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">ממ״ד</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">ממ״ק</th>
+                            <th style="padding: 12px; text-align: right; border: 1px solid #ddd;">מעלית</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results-tbody">
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>שאלון זה משמש לצורכי סקר דעות בלבד מטעם ועד הבית</p>
+            <p>תודה על התשתתפותך בשיפור המבנה שלנו! 🏘️</p>
+        </footer>
     </div>
 
     <script>
         let currentSection = 1;
+        const totalSections = 6;
 
-        function nextSection(n) {
-            const form = document.getElementById('surveyForm');
-            const inputs = document.getElementById('section-' + n).querySelectorAll('[required]');
-            for (let input of inputs) {
-                if (!input.value) {
-                    alert('אנא מלא את כל השדות');
-                    return;
-                }
+        // Auto-show sub-fields
+        document.getElementById('balcony').addEventListener('change', function() {
+            document.getElementById('balcony-size-field').style.display =
+                this.value === 'כן בהחלט' ? 'block' : 'none';
+        });
+
+        document.getElementById('mamad').addEventListener('change', function() {
+            document.getElementById('mamad-location-field').style.display =
+                this.value === 'כן בהחלט' ? 'block' : 'none';
+        });
+
+
+        function updateProgress() {
+            const progress = (currentSection / totalSections) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+            document.getElementById('progress-text').textContent = `שלב ${currentSection} מתוך ${totalSections}`;
+        }
+
+        function showSection(n) {
+            for (let i = 1; i <= totalSections; i++) {
+                document.getElementById('section-' + i).classList.add('section-hidden');
             }
-            if (n < 6) {
-                document.getElementById('section-' + n).classList.remove('active');
-                currentSection = n + 1;
-                document.getElementById('section-' + currentSection).classList.add('active');
-                document.getElementById('progress-text').textContent = 'שלב ' + currentSection + ' מתוך 6';
-                window.scrollTo(0, 0);
+            document.getElementById('section-' + n).classList.remove('section-hidden');
+            updateProgress();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function nextSection(current) {
+            // Validate current section
+            if (!validateSection(current)) return;
+
+            if (current < totalSections) {
+                currentSection = current + 1;
+                showSection(currentSection);
             }
         }
 
-        function prevSection(n) {
-            if (n > 1) {
-                document.getElementById('section-' + n).classList.remove('active');
-                currentSection = n - 1;
-                document.getElementById('section-' + currentSection).classList.add('active');
-                document.getElementById('progress-text').textContent = 'שלב ' + currentSection + ' מתוך 6';
-                window.scrollTo(0, 0);
+        function prevSection(current) {
+            if (current > 1) {
+                currentSection = current - 1;
+                showSection(currentSection);
             }
+        }
+
+        function validateSection(n) {
+            const section = document.getElementById('section-' + n);
+            const required = section.querySelectorAll('[required]');
+
+            for (let field of required) {
+                if (field.type === 'radio' || field.type === 'checkbox') {
+                    const group = section.querySelectorAll(`[name="${field.name}"]`);
+                    let checked = false;
+                    for (let item of group) {
+                        if (item.checked) {
+                            checked = true;
+                            break;
+                        }
+                    }
+                    if (!checked) {
+                        alert('אנא מלא את כל השדות החובה');
+                        return false;
+                    }
+                } else if (!field.value.trim()) {
+                    alert('אנא מלא את כל השדות החובה');
+                    field.focus();
+                    return false;
+                }
+            }
+            return true;
         }
 
         document.getElementById('surveyForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
+            if (!validateSection(currentSection)) return;
+
+            // Collect form data
             const formData = new FormData(this);
             const data = Object.fromEntries(formData);
-            
+
+            // Save to localStorage
             let allResponses = JSON.parse(localStorage.getItem('surveyResponses') || '[]');
-            allResponses.push(data);
+            allResponses.push({
+                ...data,
+                timestamp: new Date().toLocaleString('he-IL')
+            });
             localStorage.setItem('surveyResponses', JSON.stringify(allResponses));
-            
+
+            // Log to console
+            console.log('Form Data:', data);
+
+            // Show success message
             document.getElementById('surveyForm').style.display = 'none';
-            document.querySelector('.progress').style.display = 'none';
-            document.querySelector('header').style.display = 'none';
-            document.getElementById('success-message').classList.add('show');
+            document.querySelector('.progress-section').style.display = 'none';
+            document.getElementById('success-message').style.setProperty('display', 'flex', 'important');
+
+            // In production, send to Google Sheets or Supabase
+            // Example: fetch('/api/submit-survey', { method: 'POST', body: JSON.stringify(data) })
         });
 
         function showResults() {
-            document.getElementById('success-message').classList.remove('show');
-            document.getElementById('results-page').classList.add('show');
-            
+            // Hide success message
+            document.getElementById('success-message').style.setProperty('display', 'none', 'important');
+
+            // Show results page
+            document.getElementById('results-page').style.setProperty('display', 'block', 'important');
+
+            // Get data from localStorage
             let allResponses = JSON.parse(localStorage.getItem('surveyResponses') || '[]');
-            
-            allResponses.sort((a, b) => {
-                const buildingOrder = { 'טאגור 31': 1, 'טאגור 33': 2 };
-                const bA = buildingOrder[a.building] || 999;
-                const bB = buildingOrder[b.building] || 999;
-                if (bA !== bB) return bA - bB;
-                return parseInt(a.apartment) - parseInt(b.apartment);
-            });
-            
             const tbody = document.getElementById('results-tbody');
             tbody.innerHTML = '';
-            
-            allResponses.forEach(r => {
-                const row = tbody.insertRow();
-                row.innerHTML = `
-                    <td>${r.building || '-'}</td>
-                    <td>${r.apartment || '-'}</td>
-                    <td>${r.name || '-'}</td>
-                    <td class="${r.balcony === 'כן בהחלט' ? 'yes' : 'no'}">${r.balcony || '-'}</td>
-                    <td class="${r.mamad === 'כן בהחלט' ? 'yes' : 'no'}">${r.mamad || '-'}</td>
-                    <td class="${r.mamak === 'כן' ? 'yes' : 'no'}">${r.mamak || '-'}</td>
-                    <td class="${r.elevator === 'כן' ? 'yes' : 'no'}">${r.elevator || '-'}</td>
-                `;
+
+            // Sort by building (31 first, then 33) and then by apartment number
+            allResponses.sort((a, b) => {
+                // First sort by building
+                const buildingOrder = { 'טאגור 31': 1, 'טאגור 33': 2 };
+                const buildingA = buildingOrder[a.building] || 999;
+                const buildingB = buildingOrder[b.building] || 999;
+
+                if (buildingA !== buildingB) {
+                    return buildingA - buildingB;
+                }
+
+                // Then sort by apartment number
+                const apartmentA = parseInt(a.apartment) || 0;
+                const apartmentB = parseInt(b.apartment) || 0;
+                return apartmentA - apartmentB;
             });
+
+            allResponses.forEach((response, index) => {
+                const row = document.createElement('tr');
+                row.style.borderBottom = '1px solid #ddd';
+                row.innerHTML = `
+                    <td style="padding: 12px; text-align: right; border: 1px solid #ddd;">${response.building || '-'}</td>
+                    <td style="padding: 12px; text-align: right; border: 1px solid #ddd;">${response.apartment || '-'}</td>
+                    <td style="padding: 12px; text-align: right; border: 1px solid #ddd;">${response.name || '-'}</td>
+                    <td style="padding: 12px; text-align: right; border: 1px solid #ddd; background: ${response.balcony === 'כן בהחלט' ? '#e8f5e9' : '#ffebee'};">${response.balcony || '-'}</td>
+                    <td style="padding: 12px; text-align: right; border: 1px solid #ddd; background: ${response.mamad === 'כן בהחלט' ? '#e8f5e9' : '#ffebee'};">${response.mamad || '-'}</td>
+                    <td style="padding: 12px; text-align: right; border: 1px solid #ddd; background: ${response.mamak === 'כן' ? '#e8f5e9' : '#ffebee'};">${response.mamak || '-'}</td>
+                    <td style="padding: 12px; text-align: right; border: 1px solid #ddd; background: ${response.elevator === 'כן' ? '#e8f5e9' : '#ffebee'};">${response.elevator || '-'}</td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            if (allResponses.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="padding: 20px; text-align: center; color: #999;">אין תשובות עדיין</td></tr>';
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        // Initialize
+        showSection(1);
     </script>
 </body>
 </html>
