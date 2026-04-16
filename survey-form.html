@@ -755,9 +755,26 @@
             document.getElementById('results-page').style.display = 'block';
 
             // Get data from localStorage
-            const allResponses = JSON.parse(localStorage.getItem('surveyResponses') || '[]');
+            let allResponses = JSON.parse(localStorage.getItem('surveyResponses') || '[]');
             const tbody = document.getElementById('results-tbody');
             tbody.innerHTML = '';
+
+            // Sort by building (31 first, then 33) and then by apartment number
+            allResponses.sort((a, b) => {
+                // First sort by building
+                const buildingOrder = { 'טאגור 31': 1, 'טאגור 33': 2 };
+                const buildingA = buildingOrder[a.building] || 999;
+                const buildingB = buildingOrder[b.building] || 999;
+
+                if (buildingA !== buildingB) {
+                    return buildingA - buildingB;
+                }
+
+                // Then sort by apartment number
+                const apartmentA = parseInt(a.apartment) || 0;
+                const apartmentB = parseInt(b.apartment) || 0;
+                return apartmentA - apartmentB;
+            });
 
             allResponses.forEach((response, index) => {
                 const row = document.createElement('tr');
