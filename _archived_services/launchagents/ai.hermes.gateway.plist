@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>ai.hermes.gateway</string>
+    
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/itairaziel/.hermes/hermes-agent/venv/bin/python</string>
+        <string>-m</string>
+        <string>hermes_cli.main</string>
+        <string>gateway</string>
+        <string>run</string>
+        <string>--replace</string>
+    </array>
+    
+    <key>WorkingDirectory</key>
+    <string>/Users/itairaziel/.hermes/hermes-agent</string>
+    
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/Users/itairaziel/.hermes/hermes-agent/venv/bin:/Users/itairaziel/.hermes/hermes-agent/node_modules/.bin:/opt/homebrew/Cellar/node/25.8.0/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/pmk/env/global/bin://Applications/Topaz Photo AI.app/Contents/Resources/bin:/Library/Apple/usr/bin:/Users/itairaziel/.local/bin:/Users/itairaziel/Library/Python/3.11/bin:/opt/homebrew/opt/python@3.11/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Library/Frameworks/Python.framework/Versions/3.11/bin</string>
+        <key>VIRTUAL_ENV</key>
+        <string>/Users/itairaziel/.hermes/hermes-agent/venv</string>
+        <key>HERMES_HOME</key>
+        <string>/Users/itairaziel/.hermes</string>
+    </dict>
+    
+    <key>RunAtLoad</key>
+    <true/>
+    
+    <key>KeepAlive</key>
+    <dict>
+        <key>SuccessfulExit</key>
+        <false/>
+    </dict>
+    
+    <key>StandardOutPath</key>
+    <string>/Users/itairaziel/.hermes/logs/gateway.log</string>
+    
+    <key>StandardErrorPath</key>
+    <string>/Users/itairaziel/.hermes/logs/gateway.error.log</string>
+</dict>
+</plist>

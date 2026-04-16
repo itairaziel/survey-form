@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>שאלון דיירים - תוספות ושיפורים</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #2c5aa0;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #2c5aa0;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .info-box {
+            background-color: #f0f7ff;
+            border-right: 4px solid #2c5aa0;
+            padding: 12px;
+            margin-bottom: 25px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #2c5aa0;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .form-group:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: #333;
+            font-size: 15px;
+        }
+
+        .question {
+            font-weight: 600;
+            color: #2c5aa0;
+            margin-bottom: 10px;
+        }
+
+        .options {
+            margin-right: 15px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .option input[type="radio"],
+        .option input[type="checkbox"] {
+            margin-left: 8px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #2c5aa0;
+        }
+
+        .option label {
+            margin: 0;
+            flex: 1;
+            cursor: pointer;
+            font-weight: normal;
+            font-size: 14px;
+            color: #333;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 80px;
+            direction: rtl;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #2c5aa0;
+            box-shadow: 0 0 5px rgba(44, 90, 160, 0.3);
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 14px;
+            direction: rtl;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #2c5aa0;
+            box-shadow: 0 0 5px rgba(44, 90, 160, 0.3);
+        }
+
+        .note {
+            font-size: 12px;
+            color: #999;
+            margin-top: 6px;
+            margin-right: 15px;
+        }
+
+        .legend {
+            margin-bottom: 20px;
+            padding: 12px;
+            background-color: #fff9e6;
+            border-right: 3px solid #ffc107;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .signature-line {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .sig-field {
+            flex: 1;
+            text-align: center;
+        }
+
+        .sig-line {
+            border-bottom: 1px solid #333;
+            height: 50px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            font-size: 12px;
+            color: #333;
+        }
+
+        @media print {
+            body {
+                background-color: white;
+            }
+            .container {
+                box-shadow: none;
+                margin: 0;
+                padding: 0;
+                max-width: 100%;
+            }
+            header {
+                page-break-after: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>שאלון דיירים</h1>
+            <div class="subtitle">תוספות ושיפורים למבנה</div>
+            <p style="font-size: 12px; color: #999; margin-top: 10px;">מטעם ועד הבית</p>
+        </header>
+
+        <div class="info-box">
+            <strong>הנושא:</strong> בדיקת עניין של דיירי הבניין בתוספות משפחות שונות וביטחון
+        </div>
+
+        <form>
+            <!-- פרטי דיירים -->
+            <section class="section">
+                <div class="section-title">פרטי דיירים</div>
+
+                <div class="form-group">
+                    <label for="name">שם משפחה ובעל הדירה:</label>
+                    <input type="text" id="name" name="name" placeholder="שם מלא">
+                </div>
+
+                <div class="form-group">
+                    <label for="apartment">מספר דירה:</label>
+                    <input type="text" id="apartment" name="apartment" placeholder="לדוגמה: 5">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">טלפון (אופציונלי):</label>
+                    <input type="text" id="phone" name="phone" placeholder="טלפון">
+                </div>
+            </section>
+
+            <!-- שאלות עיקריות -->
+            <section class="section">
+                <div class="section-title">שאלות בדיקת עניין</div>
+
+                <!-- שאלה 1: מרפסת -->
+                <div class="form-group">
+                    <div class="question">1. האם אתה מעוניין בתוספת מרפסת לדירתך?</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="balcony_yes" name="balcony" value="כן">
+                            <label for="balcony_yes">כן, בהחלט</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="balcony_maybe" name="balcony" value="אולי">
+                            <label for="balcony_maybe">אולי, תלוי בעלויות</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="balcony_no" name="balcony" value="לא">
+                            <label for="balcony_no">לא, לא מעוניין</label>
+                        </div>
+                    </div>
+                    <div class="note">אם כן - כמה מ״ר משוער?</div>
+                    <input type="text" placeholder="מ״ר" style="margin-top: 8px; margin-right: 15px; width: 80px;">
+                </div>
+
+                <!-- שאלה 2: ממ״ד -->
+                <div class="form-group">
+                    <div class="question">2. האם אתה מעוניין בתוספת ממ״ד (מקלט ממ"ד) בדירתך?</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="mamad_yes" name="mamad" value="כן">
+                            <label for="mamad_yes">כן, בהחלט</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="mamad_maybe" name="mamad" value="אולי">
+                            <label for="mamad_maybe">אולי, תלוי בעלויות</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="mamad_no" name="mamad" value="לא">
+                            <label for="mamad_no">לא, לא מעוניין</label>
+                        </div>
+                    </div>
+                    <div class="note">מקלט זה דרוש על פי תקנות בטיחות אזרחית</div>
+                </div>
+
+                <!-- שאלה 3: מרפסת וממ״ד -->
+                <div class="form-group">
+                    <div class="question">3. אם אפשרות ממ״ד כולל יציאה לחצר בחלקי הדירה שלך - האם אתה מעוניין בזה?</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="combined_yes" name="combined" value="כן">
+                            <label for="combined_yes">כן, זה פתרון טוב</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="combined_maybe" name="combined" value="אולי">
+                            <label for="combined_maybe">אולי, אני צריך למחשבה</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="combined_no" name="combined" value="לא">
+                            <label for="combined_no">לא, אני רוצה פתרונות נפרדים</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- שאלה 4: ממ״ק -->
+                <div class="form-group">
+                    <div class="question">4. אם לא תהיה תוכנית ראויה להוספת ממ״דים בתוך כל דירה - האם תתמוך בממ״ק משותף?</div>
+                    <div class="legend">
+                        <strong>הסבר:</strong> ממ״ק (מקלט משותף) הוא מקלט משותף לכל הבניין בשטח הקרקע או בסביבה, במקום ממ״ד פרטי בכל דירה
+                    </div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="mamak_yes" name="mamak" value="כן">
+                            <label for="mamak_yes">כן, אתמוך בממ״ק משותף</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="mamak_prefer" name="mamak" value="מעדיף ממד">
+                            <label for="mamak_prefer">לא, אני מעדיף ממ״ד בדירה</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="mamak_no" name="mamak" value="לא">
+                            <label for="mamak_no">לא תומך בשום אחד</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- שאלה 5: מעלית -->
+                <div class="form-group">
+                    <div class="question">5. האם אתה תומך בהוספת מעלית אלונקה בפיר הקיים בחצאי הקומות?</div>
+                    <div class="legend">
+                        <strong>הסבר:</strong> מעלית אלונקה מאפשרת גישה לחצאי הקומות, שימושית במיוחד לילדים, קשישים ואנשים עם מוגבלויות
+                    </div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="elevator_yes" name="elevator" value="כן">
+                            <label for="elevator_yes">כן, בעד הוספת המעלית</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="elevator_conditions" name="elevator" value="בתנאים">
+                            <label for="elevator_conditions">בתנאים - תלוי בעלויות וקבלת הסכמות</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="elevator_no" name="elevator" value="לא">
+                            <label for="elevator_no">לא, נגד הוספת המעלית</label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- הערות כללי -->
+            <section class="section">
+                <div class="section-title">הערות וטיפולים נוספים</div>
+
+                <div class="form-group">
+                    <label for="comments">האם יש לך הערות או הצעות נוספות לועד הבית?</label>
+                    <textarea id="comments" name="comments" placeholder="כתוב כאן..."></textarea>
+                </div>
+            </section>
+
+            <!-- חתימה -->
+            <section class="section">
+                <div class="signature-line">
+                    <div class="sig-field">
+                        <div class="sig-line"></div>
+                        <div style="font-size: 12px; margin-top: 4px;">תאריך</div>
+                    </div>
+                    <div class="sig-field">
+                        <div class="sig-line"></div>
+                        <div style="font-size: 12px; margin-top: 4px;">חתימה וטביעת חותם</div>
+                    </div>
+                </div>
+            </section>
+        </form>
+
+        <footer>
+            <p>שאלון זה משמש לצורכי סקר דעות בלבד.</p>
+            <p>תודה על השתתפותך!</p>
+        </footer>
+    </div>
+</body>
+</html>

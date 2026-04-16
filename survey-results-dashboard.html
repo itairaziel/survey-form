@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard תוצאות סקר - טאגור 31 ו-33</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #2c5aa0;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h2 {
+            color: #2c5aa0;
+            font-size: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .stat-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid #667eea;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .building-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .building-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .building-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .building-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .mini-stat {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .mini-stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .mini-stat-label {
+            color: #999;
+            font-size: 10px;
+            margin-top: 3px;
+        }
+
+        .data-import {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .data-import h3 {
+            color: #2c5aa0;
+            margin-bottom: 15px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            resize: vertical;
+            direction: ltr;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: transform 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .info-box {
+            background: #f0f7ff;
+            border-left: 4px solid #2c5aa0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .legend {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            font-size: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .building-comparison {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .timestamp {
+            color: #999;
+            font-size: 12px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Dashboard תוצאות סקר</h1>
+            <div class="subtitle">טאגור 31 ו-33 | עדכוני דיירים לתוספות ושיפורים</div>
+        </header>
+
+        <div class="data-import">
+            <h3>📥 הצג תוצאות מ-Google Sheets</h3>
+            <p style="font-size: 13px; color: #666; margin-bottom: 15px;">
+                1. בגיליון ה-Google Sheets שלך, בחר את כל הנתונים (Ctrl+A)<br>
+                2. העתק (Ctrl+C)<br>
+                3. הדבק כאן בטקסט:
+            </p>
+            <textarea id="dataInput" placeholder="הדבק את הנתונים מ-Google Sheets כאן..."></textarea>
+            <button onclick="analyzeData()">🔍 ניתח נתונים</button>
+
+            <div class="info-box">
+                💡 <strong>טיפ:</strong> אתה יכול גם להעלות CSV ישירות מ-Google Sheets על ידי ייצוא.
+            </div>
+        </div>
+
+        <div class="dashboard" id="dashboard">
+            <div class="card">
+                <h2>📋 סטטוס כללי</h2>
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-number" id="totalResponses">0</div>
+                        <div class="stat-label">תשובות</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" id="percentResponses">0%</div>
+                        <div class="stat-label">מ-44 דיירים</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" id="pendingResponses">44</div>
+                        <div class="stat-label">חסרים</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🏠 מרפסת</h2>
+                <div class="chart-container">
+                    <canvas id="balconyChart"></canvas>
+                </div>
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-number" id="balconyYes">0</div>
+                        <div class="stat-label">כן</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" id="balconyMaybe">0</div>
+                        <div class="stat-label">אולי</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" id="balconyNo">0</div>
+                        <div class="stat-label">לא</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🛡️ ממ״ד</h2>
+                <div class="chart-container">
+                    <canvas id="mamadChart"></canvas>
+                </div>
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-number" id="mamadYes">0</div>
+                        <div class="stat-label">כן</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" id="mamadMaybe">0</div>
+                        <div class="stat-label">אולי</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" id="mamadNo">0</div>
+                        <div class="stat-label">לא</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🛗 מעלית אלונקה</h2>
+                <div class="chart-container">
+                    <canvas id="elevatorChart"></canvas>
+                </div>
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-number" id="elevatorYes">0</div>
+                        <div class="stat-label">בעד</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" id="elevatorMaybe">0</div>
+                        <div class="stat-label">בתנאים</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" id="elevatorNo">0</div>
+                        <div class="stat-label">נגד</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>🏢 השוואה בין בניינים</h2>
+                <div class="building-comparison">
+                    <div class="building-card">
+                        <div class="building-title">טאגור 31</div>
+                        <div class="building-stats">
+                            <div class="mini-stat">
+                                <div class="mini-stat-value" id="building31responses">0</div>
+                                <div class="mini-stat-label">תשובות</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-stat-value" id="building31balcony">0%</div>
+                                <div class="mini-stat-label">מרפסת</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-stat-value" id="building31mamad">0%</div>
+                                <div class="mini-stat-label">ממ״ד</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-stat-value" id="building31elevator">0%</div>
+                                <div class="mini-stat-label">מעלית</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="building-card">
+                        <div class="building-title">טאגור 33</div>
+                        <div class="building-stats">
+                            <div class="mini-stat">
+                                <div class="mini-stat-value" id="building33responses">0</div>
+                                <div class="mini-stat-label">תשובות</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-stat-value" id="building33balcony">0%</div>
+                                <div class="mini-stat-label">מרפסת</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-stat-value" id="building33mamad">0%</div>
+                                <div class="mini-stat-label">ממ״ד</div>
+                            </div>
+                            <div class="mini-stat">
+                                <div class="mini-stat-value" id="building33elevator">0%</div>
+                                <div class="mini-stat-label">מעלית</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>📊 סיכום דרישות</h2>
+                <div class="info-box">
+                    <strong>אחוזי הסכמה נדרשים:</strong><br>
+                    • 🏠 <strong>מרפסת:</strong> 75% הסכמה<br>
+                    • 🛡️ <strong>ממ״ד:</strong> 66% הסכמה<br>
+                    • 🏢 <strong>ממ״ק:</strong> 100% הסכמה<br>
+                    • 🛗 <strong>מעלית:</strong> הסכמה רוב
+                </div>
+                <div style="margin-top: 15px; padding: 15px; background: #fff9e6; border-radius: 8px; font-size: 13px; color: #666;">
+                    <strong>⏳ אם הושגנו אחוזי הסכמה:</strong><br>
+                    ✅ השלב הבא: הגשה לפרי רולינג (דמי הכנה: ₪1,000 לדירה)
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; color: white; font-size: 12px; margin-top: 30px;">
+            <p>📋 Dashboard זה משדר נתונים מ-Google Sheets | עדכון אוטומטי בעת טעינה</p>
+        </div>
+    </div>
+
+    <script>
+        const chartColors = {
+            yes: 'rgba(39, 174, 96, 0.8)',
+            maybe: 'rgba(255, 193, 7, 0.8)',
+            no: 'rgba(231, 76, 60, 0.8)'
+        };
+
+        function analyzeData() {
+            const input = document.getElementById('dataInput').value;
+            if (!input.trim()) {
+                alert('אנא הדבק נתונים מ-Google Sheets');
+                return;
+            }
+
+            // Parse CSV data
+            const lines = input.split('\n').filter(line => line.trim());
+            let totalResponses = 0;
+            let building31 = { responses: 0, balcony: 0, mamad: 0, elevator: 0 };
+            let building33 = { responses: 0, balcony: 0, mamad: 0, elevator: 0 };
+
+            let balconyStats = { yes: 0, maybe: 0, no: 0 };
+            let mamadStats = { yes: 0, maybe: 0, no: 0 };
+            let elevatorStats = { yes: 0, maybe: 0, no: 0 };
+
+            // Simple parsing (adjust based on your CSV structure)
+            lines.forEach((line, index) => {
+                if (index === 0) return; // Skip header
+                const parts = line.split(',');
+                if (parts.length < 5) return; // Invalid line
+
+                const building = parts[0].trim();
+                const balcony = parts[4]?.trim().toLowerCase();
+                const mamad = parts[5]?.trim().toLowerCase();
+                const elevator = parts[7]?.trim().toLowerCase();
+
+                // Count responses
+                if (balcony || mamad || elevator) {
+                    totalResponses++;
+                    if (building.includes('31')) {
+                        building31.responses++;
+                        if (balcony === 'כן') building31.balcony++;
+                        if (mamad === 'כן') building31.mamad++;
+                        if (elevator === 'כן') building31.elevator++;
+                    } else if (building.includes('33')) {
+                        building33.responses++;
+                        if (balcony === 'כן') building33.balcony++;
+                        if (mamad === 'כן') building33.mamad++;
+                        if (elevator === 'כן') building33.elevator++;
+                    }
+                }
+
+                // Count options
+                if (balcony === 'כן') balconyStats.yes++;
+                else if (balcony === 'אולי') balconyStats.maybe++;
+                else if (balcony === 'לא') balconyStats.no++;
+
+                if (mamad === 'כן') mamadStats.yes++;
+                else if (mamad === 'אולי') mamadStats.maybe++;
+                else if (mamad === 'לא') mamadStats.no++;
+
+                if (elevator === 'כן') elevatorStats.yes++;
+                else if (elevator === 'בתנאים') elevatorStats.maybe++;
+                else if (elevator === 'לא') elevatorStats.no++;
+            });
+
+            // Update UI
+            updateStats(totalResponses, balconyStats, mamadStats, elevatorStats, building31, building33);
+        }
+
+        function updateStats(total, balcony, mamad, elevator, b31, b33) {
+            document.getElementById('totalResponses').textContent = total;
+            document.getElementById('percentResponses').textContent = Math.round((total / 44) * 100) + '%';
+            document.getElementById('pendingResponses').textContent = 44 - total;
+
+            // Balcony
+            document.getElementById('balconyYes').textContent = balcony.yes;
+            document.getElementById('balconyMaybe').textContent = balcony.maybe;
+            document.getElementById('balconyNo').textContent = balcony.no;
+
+            // Mamad
+            document.getElementById('mamadYes').textContent = mamad.yes;
+            document.getElementById('mamadMaybe').textContent = mamad.maybe;
+            document.getElementById('mamadNo').textContent = mamad.no;
+
+            // Elevator
+            document.getElementById('elevatorYes').textContent = elevator.yes;
+            document.getElementById('elevatorMaybe').textContent = elevator.maybe;
+            document.getElementById('elevatorNo').textContent = elevator.no;
+
+            // Building comparison
+            document.getElementById('building31responses').textContent = b31.responses;
+            document.getElementById('building31balcony').textContent = b31.responses ? Math.round((b31.balcony / b31.responses) * 100) + '%' : '0%';
+            document.getElementById('building31mamad').textContent = b31.responses ? Math.round((b31.mamad / b31.responses) * 100) + '%' : '0%';
+            document.getElementById('building31elevator').textContent = b31.responses ? Math.round((b31.elevator / b31.responses) * 100) + '%' : '0%';
+
+            document.getElementById('building33responses').textContent = b33.responses;
+            document.getElementById('building33balcony').textContent = b33.responses ? Math.round((b33.balcony / b33.responses) * 100) + '%' : '0%';
+            document.getElementById('building33mamad').textContent = b33.responses ? Math.round((b33.mamad / b33.responses) * 100) + '%' : '0%';
+            document.getElementById('building33elevator').textContent = b33.responses ? Math.round((b33.elevator / b33.responses) * 100) + '%' : '0%';
+
+            // Update charts
+            updateCharts(balcony, mamad, elevator);
+        }
+
+        function updateCharts(balcony, mamad, elevator) {
+            // Balcony Chart
+            const balconyCtx = document.getElementById('balconyChart').getContext('2d');
+            new Chart(balconyCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['כן', 'אולי', 'לא'],
+                    datasets: [{
+                        data: [balcony.yes, balcony.maybe, balcony.no],
+                        backgroundColor: [chartColors.yes, chartColors.maybe, chartColors.no]
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            // Mamad Chart
+            const mamadCtx = document.getElementById('mamadChart').getContext('2d');
+            new Chart(mamadCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['כן', 'אולי', 'לא'],
+                    datasets: [{
+                        data: [mamad.yes, mamad.maybe, mamad.no],
+                        backgroundColor: [chartColors.yes, chartColors.maybe, chartColors.no]
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            // Elevator Chart
+            const elevatorCtx = document.getElementById('elevatorChart').getContext('2d');
+            new Chart(elevatorCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['בעד', 'בתנאים', 'נגד'],
+                    datasets: [{
+                        data: [elevator.yes, elevator.maybe, elevator.no],
+                        backgroundColor: [chartColors.yes, chartColors.maybe, chartColors.no]
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
+    </script>
+</body>
+</html>
