@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Comment</key>
+	<string>OpenClaw Gateway (v2026.4.1)</string>
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>ANTHROPIC_API_KEY</key>
+		<string>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</string>
+		<key>HOME</key>
+		<string>/Users/itairaziel</string>
+		<key>NODE_EXTRA_CA_CERTS</key>
+		<string>/etc/ssl/cert.pem</string>
+		<key>NODE_USE_SYSTEM_CA</key>
+		<string>1</string>
+		<key>OPENCLAW_GATEWAY_PORT</key>
+		<string>18789</string>
+		<key>OPENCLAW_LAUNCHD_LABEL</key>
+		<string>ai.openclaw.gateway</string>
+		<key>OPENCLAW_SERVICE_KIND</key>
+		<string>gateway</string>
+		<key>OPENCLAW_SERVICE_MARKER</key>
+		<string>openclaw</string>
+		<key>OPENCLAW_SERVICE_VERSION</key>
+		<string>2026.4.1</string>
+		<key>OPENCLAW_SYSTEMD_UNIT</key>
+		<string>openclaw-gateway.service</string>
+		<key>OPENCLAW_WINDOWS_TASK_NAME</key>
+		<string>OpenClaw Gateway</string>
+		<key>PATH</key>
+		<string>/opt/homebrew/opt/node/bin:/Users/itairaziel/.local/bin:/Users/itairaziel/.npm-global/bin:/Users/itairaziel/bin:/Users/itairaziel/.volta/bin:/Users/itairaziel/.asdf/shims:/Users/itairaziel/.bun/bin:/Users/itairaziel/Library/Application Support/fnm/aliases/default/bin:/Users/itairaziel/.fnm/aliases/default/bin:/Users/itairaziel/Library/pnpm:/Users/itairaziel/.local/share/pnpm:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+		<key>TELEGRAM_BOT_TOKEN</key>
+		<string>7963611288:AAHuzTxi6sMO3fbCuDp9YLSDXZ9hmu7eIMI</string>
+		<key>TMPDIR</key>
+		<string>/var/folders/lk/cdxykxf51rb0x0hgsjlmy1jr0000gn/T/</string>
+	</dict>
+	<key>KeepAlive</key>
+	<true/>
+	<key>Label</key>
+	<string>ai.openclaw.gateway</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/opt/homebrew/opt/node/bin/node</string>
+		<string>/opt/homebrew/lib/node_modules/openclaw/dist/index.js</string>
+		<string>gateway</string>
+		<string>--port</string>
+		<string>18789</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>StandardErrorPath</key>
+	<string>/Users/itairaziel/.openclaw/logs/gateway.err.log</string>
+	<key>StandardOutPath</key>
+	<string>/Users/itairaziel/.openclaw/logs/gateway.log</string>
+	<key>ThrottleInterval</key>
+	<integer>1</integer>
+	<key>Umask</key>
+	<integer>63</integer>
+</dict>
+</plist>
